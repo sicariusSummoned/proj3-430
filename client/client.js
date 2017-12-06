@@ -59,18 +59,5 @@ $(document).ready(() => {
     return false;
   });
   
-  $("#domoForm").on("submit", (e) => {
-    e.preventDefault();
-
-    $("#domoMessage").animate({width:'hide'},650);
-
-    if($("#domoName").val() == '' || $("#domoAge").val() == '' || $("#domoFaction").val() == '') {
-      handleError("ERROR! All fields are required");
-      return false;
-    }
-
-    sendAjax($("#domoForm").attr("action"), $("#domoForm").serialize());
-
-    return false;
-  });
+  
 });

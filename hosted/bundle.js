@@ -645,7 +645,67 @@ var loadModelsFromServer = function loadModelsFromServer() {
   });
 };
 
+var handlePassChange = function handlePassChange(e) {
+  e.preventDefault();
+
+  $("#domoMessage").animate({ width: 'hide' }, 350);
+
+  if ($("#oldpass").val() == '' || $("#pass").val() == '' || $("#pass2").val() == '') {
+    handleError("ERROR! Missing data detected!");
+    return false;
+  }
+
+  if ($("#pass").val() !== $("#pass2").val()) {
+    handleError("ERROR! Passwords must match!");
+    return false;
+  }
+
+  sendAjax('POST', $("#passchangeForm").attr("action"), $("#passchangeForm").serialize(), redirect);
+
+  return false;
+};
+
+var PasschangeWindow = function PasschangeWindow(props) {
+  return React.createElement(
+    "form",
+    {
+      id: "passchangeForm",
+      name: "passchangeForm",
+      onSubmit: handlePassChange,
+      action: "/changepass",
+      method: "POST",
+      className: "mainForm"
+    },
+    React.createElement(
+      "label",
+      { htmlFor: "oldpass" },
+      "Old Password: "
+    ),
+    React.createElement("input", { id: "oldpass", type: "text", name: "oldpass", placeholder: "old password" }),
+    React.createElement(
+      "label",
+      { htmlFor: "pass" },
+      "Password: "
+    ),
+    React.createElement("input", { id: "pass", type: "password", name: "pass", placeholder: "password" }),
+    React.createElement(
+      "label",
+      { htmlFor: "pass2" },
+      "Password: "
+    ),
+    React.createElement("input", { id: "pass2", type: "password", name: "pass2", placeholder: "retype password" }),
+    React.createElement("input", { type: "hidden", name: "_csrf", value: props.csrf }),
+    React.createElement("input", { className: "formSubmit", type: "submit", value: "Change" })
+  );
+};
+
+var createPasschangeWindow = function createPasschangeWindow(csrf) {
+  ReactDOM.render(React.createElement(PasschangeWindow, { csrf: csrf }), document.querySelector("#content"));
+};
+
 var setup = function setup(csrf) {
+  var passchangeButton = document.querySelector("#passchangeButton");
+
   switch (page) {
     case 'detachments':
       ReactDOM.render(React.createElement(DetachmentForm, { csrf: csrf }), document.querySelector("#makeArmy"));
@@ -669,6 +729,12 @@ var setup = function setup(csrf) {
       loadArmiesFromServer();
       break;
   }
+
+  passchangeButton.addEventListener("click", function (e) {
+    e.preventDefault();
+    createPasschangeWindow(csrf);
+    return false;
+  });
 };
 
 var getToken = function getToken() {

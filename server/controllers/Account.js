@@ -117,35 +117,33 @@ const changePass = (request, response) => {
     });
   }
 
-  // This Bit must change
-  return Account.AccountModel.generateHash(req.body.pass, (salt, hash) => {
-    const accountData = {
-      username: req.body.username,
-      salt,
-      password: hash,
-    };
-    const newAccount = new Account.AccountModel(accountData);
-
-    const savePromise = newAccount.save();
-
-    savePromise.then(() => {
-      req.session.account = Account.AccountModel.toAPI(newAccount);
-      return res.json({
-        redirect: '/maker',
+  // Authenticate
+  return Account.AccountModel.authenticate(req.session.account.username, req.body.oldpass, (err, account) => {
+    if (err || !account) {
+      return res.status(401).json({
+        error: 'Wrong password',
       });
-    });
+    }
 
-    savePromise.catch((err) => {
-      console.log(err);
+    //now change the password.
+    return Account.AccountModel.generateHash(req.body.pass, (salt, hash) => {
+      account.password = hash;
+      account.salt = salt;
+      
+      const savePromise = account.save();
 
-      if (err.code === 11000) {
-        return res.status(400).json({
-          error: 'Username already in use.',
+      savePromise.then(() => {
+        return res.json({
+          redirect: '/maker',
         });
-      }
+      });
 
-      return res.status(400).json({
-        error: 'An error occurred',
+      savePromise.catch((err) => {
+        console.log(err);
+        
+        return res.status(400).json({
+          error: 'An error occurred',
+        });
       });
     });
   });
