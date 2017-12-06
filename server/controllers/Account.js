@@ -3,7 +3,9 @@ const models = require('../models');
 const Account = models.Account;
 
 const loginPage = (req, res) => {
-  res.render('login', { csrfToken: req.csrfToken() });
+  res.render('login', {
+    csrfToken: req.csrfToken()
+  });
 };
 
 
@@ -62,6 +64,60 @@ const signup = (request, response) => {
     });
   }
 
+  return Account.AccountModel.generateHash(req.body.pass, (salt, hash) => {
+    const accountData = {
+      username: req.body.username,
+      salt,
+      password: hash,
+    };
+    const newAccount = new Account.AccountModel(accountData);
+
+    const savePromise = newAccount.save();
+
+    savePromise.then(() => {
+      req.session.account = Account.AccountModel.toAPI(newAccount);
+      return res.json({
+        redirect: '/maker',
+      });
+    });
+
+    savePromise.catch((err) => {
+      console.log(err);
+
+      if (err.code === 11000) {
+        return res.status(400).json({
+          error: 'Username already in use.',
+        });
+      }
+
+      return res.status(400).json({
+        error: 'An error occurred',
+      });
+    });
+  });
+};
+
+const changePass = (request, response) => {
+  const req = request;
+  const res = response;
+  //
+  req.body.oldpass = `${req.body.oldpass}`;
+  req.body.pass = `${req.body.pass}`;
+  req.body.pass2 = `${req.body.pass2}`;
+
+  if (!req.body.oldpass || !req.body.pass || !req.body.pass2) {
+    return res.status(400).json({
+      error: 'ERROR! Missing fields detected!',
+    });
+  }
+
+  if (req.body.pass !== req.body.pass2) {
+    return res.status(400).json({
+      error: 'ERROR! Passswords must match',
+    });
+  }
+
+  //This Bit must change
   return Account.AccountModel.generateHash(req.body.pass, (salt, hash) => {
     const accountData = {
       username: req.body.username,
