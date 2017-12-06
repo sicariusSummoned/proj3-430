@@ -7,7 +7,7 @@ let ModelModel = {};
 // mongoose.Types.ObjectID
 // converts string to a mongo id
 const convertId = mongoose.Types.ObjectId;
-//modelName is a reserved keyword. This is my workaround.
+// modelName is a reserved keyword. This is my workaround.
 const setModelGnome = (modelGnome) => _.escape(modelGnome).trim();
 const setModelStats = (modelStats) => _.escape(modelStats).trim();
 const setModelUpgrades = (modelUpgrades) => _.escape(modelUpgrades).trim();
@@ -23,7 +23,7 @@ const ModelSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  //modelName is a reserved keyword. This is my workaround.
+  // modelName is a reserved keyword. This is my workaround.
   modelGnome: {
     type: String,
     required: true,

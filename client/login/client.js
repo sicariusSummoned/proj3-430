@@ -158,7 +158,7 @@ const createPasschangeWindow = (csrf) => {
 const setup = (csrf) => {
   const loginButton = document.querySelector("#loginButton");
   const signupButton = document.querySelector("#signupButton");
-  
+  const passchangeButton = document.querySelector("#passchangeButton");
   
   signupButton.addEventListener("click", (e) =>{
     e.preventDefault();

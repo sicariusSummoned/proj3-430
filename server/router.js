@@ -21,6 +21,7 @@ const router = (app) => {
   app.post('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.login);
 
   app.post('/signup', mid.requiresSecure, mid.requiresLogout, controllers.Account.signup);
+  app.post('/changepass', mid.requiresLogin, controllers.Account.changePass);
 
   app.get('/logout', mid.requiresLogin, controllers.Account.logout);
 
@@ -37,7 +38,6 @@ const router = (app) => {
   app.post('/models/:unitId', mid.requiresLogin, controllers.Model.makeModel);
 
   app.get('/*', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
-  
 };
 
 module.exports = router;

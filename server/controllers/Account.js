@@ -4,7 +4,7 @@ const Account = models.Account;
 
 const loginPage = (req, res) => {
   res.render('login', {
-    csrfToken: req.csrfToken()
+    csrfToken: req.csrfToken(),
   });
 };
 
@@ -117,7 +117,7 @@ const changePass = (request, response) => {
     });
   }
 
-  //This Bit must change
+  // This Bit must change
   return Account.AccountModel.generateHash(req.body.pass, (salt, hash) => {
     const accountData = {
       username: req.body.username,
@@ -166,4 +166,5 @@ module.exports.loginPage = loginPage;
 module.exports.login = login;
 module.exports.logout = logout;
 module.exports.signup = signup;
+module.exports.changePass = changePass;
 module.exports.getToken = getToken;

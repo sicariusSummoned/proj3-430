@@ -71,7 +71,7 @@ UnitSchema.statics.toAPI = (doc) => ({
   unitPower: doc.unitPower,
   unitUpgrades: doc.unitUpgrades,
   unitUpgradesCost: doc.unitUpgradesCost,
-  unitSpecialRules: doc.unitSpecialRules
+  unitSpecialRules: doc.unitSpecialRules,
 });
 
 UnitSchema.statics.findByOwner = (ownerId, callback) => {
@@ -80,7 +80,7 @@ UnitSchema.statics.findByOwner = (ownerId, callback) => {
   };
   return UnitModel
     .find(search)
-    .select('unitName unitType unitPoints unitPower'+
+    .select('unitName unitType unitPoints unitPower' +
             ' unitUpgrades unitUpgradesCost unitSpecialRules id')
     .exec(callback);
 };
