@@ -118,35 +118,36 @@ const changePass = (request, response) => {
   }
 
   // Authenticate
-  return Account.AccountModel.authenticate(req.session.account.username, req.body.oldpass, (err, account) => {
-    if (err || !account) {
-      return res.status(401).json({
-        error: 'Wrong password',
-      });
-    }
-
-    //now change the password.
-    return Account.AccountModel.generateHash(req.body.pass, (salt, hash) => {
-      account.password = hash;
-      account.salt = salt;
-      
-      const savePromise = account.save();
-
-      savePromise.then(() => {
-        return res.json({
-          redirect: '/maker',
+  return Account.AccountModel
+    .authenticate(req.session.account.username, req.body.oldpass, (err, account) => {
+      if (err || !account) {
+        return res.status(401).json({
+          error: 'Wrong password',
         });
-      });
+      }
 
-      savePromise.catch((err) => {
-        console.log(err);
-        
-        return res.status(400).json({
-          error: 'An error occurred',
+    // now change the password.
+      return Account.AccountModel.generateHash(req.body.pass, (salt, hash) => {
+        const updatedAccount = account;
+
+        updatedAccount.password = hash;
+        updatedAccount.salt = salt;
+
+        const savePromise = updatedAccount.save();
+
+        savePromise.then(() => res.json({
+          redirect: '/maker',
+        }));
+
+        savePromise.catch((error) => {
+          console.log(error);
+
+          return res.status(400).json({
+            error: 'An error occurred',
+          });
         });
       });
     });
-  });
 };
 
 const getToken = (request, response) => {
