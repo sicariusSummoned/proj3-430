@@ -7,7 +7,7 @@ var handleArmy = function handleArmy(e) {
 
   $("domoMessage").animate({ width: 'hide' }, 350);
 
-  if ($("#listName").val() == '' || $("#listArmy").val() == '' || $("#listPoints").val() == '') {
+  if ($("#listName").val() == '' || $("#listPoints").val() == '') {
     handleError("All fields are required!");
     return false;
   }
@@ -29,7 +29,6 @@ var handleDetachment = function handleDetachment(e) {
   console.dir($("#detachmentForm").attr("action"));
 
   sendAjax('POST', $("#detachmentForm").attr("action"), $("#detachmentForm").serialize(), function () {
-
     loadDetachmentsFromServer();
   });
 };
@@ -83,21 +82,177 @@ var ArmyForm = function ArmyForm(props) {
     React.createElement(
       "label",
       { htmlFor: "listFaction" },
-      "Faction: "
+      "Keyword: "
     ),
-    React.createElement("input", { id: "listFaction", type: "text", name: "listFaction", placeholder: "Imperium" }),
+    React.createElement(
+      "select",
+      { id: "listFaction", name: "listFaction" },
+      React.createElement(
+        "option",
+        { value: "Imperium", selected: true },
+        "Imperium"
+      ),
+      React.createElement(
+        "option",
+        { value: "Tyranid" },
+        "Tyranid"
+      ),
+      React.createElement(
+        "option",
+        { value: "Dark Eldar" },
+        "Dark Eldar"
+      ),
+      React.createElement(
+        "option",
+        { value: "Ork" },
+        "Ork"
+      ),
+      React.createElement(
+        "option",
+        { value: "Chaos" },
+        "Chaos"
+      ),
+      React.createElement(
+        "option",
+        { value: "Eldar" },
+        "Eldar"
+      ),
+      React.createElement(
+        "option",
+        { value: "Tau" },
+        "Tau"
+      ),
+      React.createElement(
+        "option",
+        { value: "Necron" },
+        "Necron"
+      )
+    ),
     React.createElement(
       "label",
       { htmlFor: "listArmy" },
       "Army: "
     ),
-    React.createElement("input", { id: "listArmy", type: "text", name: "listArmy", placeholder: "Imperial Guard" }),
+    React.createElement(
+      "select",
+      { id: "listArmy", name: "listArmy" },
+      React.createElement(
+        "option",
+        { value: "Space Marines", selected: true },
+        "Space Marines"
+      ),
+      React.createElement(
+        "option",
+        { value: "Ultramarines" },
+        "Ultramarines"
+      ),
+      React.createElement(
+        "option",
+        { value: "Space Wolves" },
+        "Space Wolves"
+      ),
+      React.createElement(
+        "option",
+        { value: "Dark Angels" },
+        "Dark Angels"
+      ),
+      React.createElement(
+        "option",
+        { value: "Blood Angels" },
+        "Blood Angels"
+      ),
+      React.createElement(
+        "option",
+        { value: "Chaos Space Marines" },
+        "Chaos Space Marines"
+      ),
+      React.createElement(
+        "option",
+        { value: "Death Guard" },
+        "Death Guard"
+      ),
+      React.createElement(
+        "option",
+        { value: "Chaos Demons" },
+        "Chaos Demons"
+      ),
+      React.createElement(
+        "option",
+        { value: "Dark Eldar" },
+        "Dark Eldar"
+      ),
+      React.createElement(
+        "option",
+        { value: "Eldar" },
+        "Eldar"
+      ),
+      React.createElement(
+        "option",
+        { value: "Harlequins" },
+        "Harlequins"
+      ),
+      React.createElement(
+        "option",
+        { value: "Necrons" },
+        "Necrons"
+      ),
+      React.createElement(
+        "option",
+        { value: "Orks" },
+        "Orks"
+      ),
+      React.createElement(
+        "option",
+        { value: "Tau" },
+        "Tau"
+      ),
+      React.createElement(
+        "option",
+        { value: "Tyranids" },
+        "Tyranids"
+      ),
+      React.createElement(
+        "option",
+        { value: "Imperial Guard" },
+        "Imperial Guard"
+      ),
+      React.createElement(
+        "option",
+        { value: "Death Korps" },
+        "Death Korps"
+      ),
+      React.createElement(
+        "option",
+        { value: "Militarum Tempestus" },
+        "Militarum Tempestus"
+      ),
+      React.createElement(
+        "option",
+        { value: "Genestealer Cults" },
+        "Genestealer Cults"
+      ),
+      React.createElement(
+        "option",
+        { value: "Sisters of Battle" },
+        "Sisters of Battle"
+      ),
+      React.createElement(
+        "option",
+        { value: "Skitarii" },
+        "Skitarii"
+      ),
+      React.createElement(
+        "option",
+        { value: "Cult Mechanicus" },
+        "Cult Mechanicus"
+      )
+    ),
     React.createElement(
       "label",
       { htmlFor: "listSubFaction" },
       "SubFaction: "
     ),
-    React.createElement("input", { id: "listSubFaction", type: "text", name: "listSubFaction", placeholder: "Cadian" }),
+    React.createElement("input", { id: "listSubFaction", type: "text", name: "listSubFaction" }),
     React.createElement(
       "label",
       { htmlFor: "listPoints" },
@@ -132,7 +287,70 @@ var DetachmentForm = function DetachmentForm(props) {
       { htmlFor: "detachmentType" },
       "Detachment Type: "
     ),
-    React.createElement("input", { id: "detachmentType", type: "text", name: "detachmentType", placeholder: "Patrol" }),
+    React.createElement(
+      "select",
+      { id: "detachmentType", name: "detachmentType" },
+      React.createElement(
+        "option",
+        { value: "patrol", selected: true },
+        "Patrol Detachment"
+      ),
+      React.createElement(
+        "option",
+        { value: "battalion" },
+        "Battalion Detachment"
+      ),
+      React.createElement(
+        "option",
+        { value: "brigade" },
+        "Brigade Detachment"
+      ),
+      React.createElement(
+        "option",
+        { value: "vanguard" },
+        "Vanguard Detachment"
+      ),
+      React.createElement(
+        "option",
+        { value: "spearhead" },
+        "Spearhead Detachment"
+      ),
+      React.createElement(
+        "option",
+        { value: "outrider" },
+        "Outrider Detachment"
+      ),
+      React.createElement(
+        "option",
+        { value: "command" },
+        "Supreme Command Detachment"
+      ),
+      React.createElement(
+        "option",
+        { value: "superheavy" },
+        "Super-Heavy Detachment"
+      ),
+      React.createElement(
+        "option",
+        { value: "superheavyauxiliary" },
+        "Super-Heavy Auxiliary Detachment"
+      ),
+      React.createElement(
+        "option",
+        { value: "airwing" },
+        "Air Wing Detachment"
+      ),
+      React.createElement(
+        "option",
+        { value: "fortification" },
+        "Fortification Network"
+      ),
+      React.createElement(
+        "option",
+        { value: "support" },
+        "Auxiliary Support Detachments"
+      )
+    ),
     React.createElement(
       "label",
       { htmlFor: "detachmentPoints" },
@@ -173,7 +391,55 @@ var UnitForm = function UnitForm(props) {
       { htmlFor: "unitType" },
       "Unit Type: "
     ),
-    React.createElement("input", { id: "unitType", type: "text", name: "unitType", placeholder: "Infantry" }),
+    React.createElement(
+      "select",
+      { id: "unitType", name: "unitType" },
+      React.createElement(
+        "option",
+        { value: "hq" },
+        "HQ"
+      ),
+      React.createElement(
+        "option",
+        { value: "troop" },
+        "Troops"
+      ),
+      React.createElement(
+        "option",
+        { value: "elite" },
+        "Elites"
+      ),
+      React.createElement(
+        "option",
+        { value: "fastattack" },
+        "Fast Attack"
+      ),
+      React.createElement(
+        "option",
+        { value: "heavysupport" },
+        "Heavy Support"
+      ),
+      React.createElement(
+        "option",
+        { value: "flyer" },
+        "Flyers"
+      ),
+      React.createElement(
+        "option",
+        { value: "dedicatedtransport" },
+        "Dedicated Transport"
+      ),
+      React.createElement(
+        "option",
+        { value: "lordofwar" },
+        "Lords of War"
+      ),
+      React.createElement(
+        "option",
+        { value: "fortification" },
+        "Fortifications"
+      )
+    ),
     React.createElement(
       "label",
       { htmlFor: "unitPoints" },
@@ -278,8 +544,145 @@ var ArmyList = function ArmyList(props) {
   var armyNodes = props.armies.map(function (army) {
     var _React$createElement, _React$createElement2;
 
-    console.dir(army);
-    console.log(army.listArmy);
+    var factionIconString = "/assets/img/armies/";
+    var codexIconString = "/assets/img/armies/";
+
+    /**
+    <option value="Imperium" selected>Imperium</option>
+    <option value="Tyranid">Tyranid</option>
+    <option value="Dark Eldar">Dark Eldar</option>
+    <option value="Ork">Ork</option>
+    <option value="Chaos">Chaos</option>
+    <option value="Eldar">Eldar</option>
+    <option value="Tau">Tau</option>
+    <option value="Necron">Necron</option>
+    **/
+
+    switch (army.listFaction) {
+      case 'Imperium':
+        factionIconString += 'imperium.png';
+        break;
+      case 'Tyranid':
+        factionIconString += 'tyranid.png';
+        break;
+      case 'Dark Eldar':
+        factionIconString += 'darkeldar.png';
+        break;
+      case 'Ork':
+        factionIconString += 'ork.png';
+        break;
+      case 'Chaos':
+        factionIconString += 'chaosdemons.png';
+        break;
+      case 'Eldar':
+        factionIconString += 'eldar.png';
+        break;
+      case 'Tau':
+        factionIconString += 'tau.png';
+        break;
+      case 'Necron':
+        factionIconString += 'necron.png';
+        break;
+      default:
+        factionIconString += 'imperium.png';
+        break;
+    }
+    /**
+        <option value="Space Marines"selected>Space Marines</option>
+        <option value="Ultramarines">Ultramarines</option>
+        <option value="Space Wolves">Space Wolves</option>
+        <option value="Dark Angels">Dark Angels</option>
+        <option value="Blood Angels">Blood Angels</option>
+        <option value="Chaos Space Marines">Chaos Space Marines</option>
+        <option value="Death Guard">Death Guard</option>
+        <option value="Chaos Demons">Chaos Demons</option>
+        <option value="Dark Eldar">Dark Eldar</option>
+        <option value="Eldar">Eldar</option>
+        <option value="Harlequins">Harlequins</option>
+        <option value="Necrons">Necrons</option>
+        <option value="Orks">Orks</option>
+        <option value="Tau">Tau</option>
+        <option value="Tyranids">Tyranids</option>
+        <option value="Imperial Guard">Imperial Guard</option>
+        <option value="Death Korps">Death Korps</option>
+        <option value="Militarum Tempestus">Militarum Tempestus</option>
+        <option value="Genestealer Cults">Genestealer Cults</option>
+        <option value="Sisters of Battle">Sisters of Battle</option>
+        <option value="Skitarii">Skitarii</option>
+        <option value="Cult Mechanicus">Cult Mechanicus</option>    
+    **/
+
+    switch (army.listArmy) {
+      case "Space Marines":
+        codexIconString += "spacemarines.png";
+        break;
+      case "Ultramarines":
+        codexIconString += "ultramarines.png";
+        break;
+      case "Space Wolves":
+        codexIconString += "spacewolves.png";
+        break;
+      case "Dark Angels":
+        codexIconString += "darkangels.png";
+        break;
+      case "Blood Angels":
+        codexIconString += "bloodangels.png";
+        break;
+      case "Chaos Space Marines":
+        codexIconString += "chaosspacemarines.png";
+        break;
+      case "Death Guard":
+        codexIconString += "deathguard.png";
+        break;
+      case "Chaos Demons":
+        codexIconString += "chaosdemons.png";
+        break;
+      case "Dark Eldar":
+        codexIconString += "darkeldar.png";
+        break;
+      case "Eldar":
+        codexIconString += "eldar.png";
+        break;
+      case "Harlequins":
+        codexIconString += "harlequin.png";
+        break;
+      case "Necrons":
+        codexIconString += "necron.png";
+        break;
+      case "Orks":
+        codexIconString += "ork.png";
+        break;
+      case "Tau":
+        codexIconString += "tau.png";
+        break;
+      case "Tyranids":
+        codexIconString += "tyranid.png";
+        break;
+      case "Imperial Guard":
+        codexIconString += "imperialguard.png";
+        break;
+      case "Death Korps":
+        codexIconString += "deathkorps.jpeg";
+        break;
+      case "Militarum Tempestus":
+        codexIconString += "militarumtempestus.png";
+        break;
+      case "Genestealer Cults":
+        codexIconString += "tyranid.png";
+        break;
+      case "Sisters of Battle":
+        codexIconString += "sistersofbattle.jpeg";
+        break;
+      case "Skitarii":
+        codexIconString += "skitarii.png";
+        break;
+      case "Cult Mechanicus":
+        codexIconString += "cultmechanicus.png";
+        break;
+      default:
+        codexIconString += 'spacemarines.png';
+        break;
+    }
 
     return React.createElement(
       "div",
@@ -296,13 +699,15 @@ var ArmyList = function ArmyList(props) {
           "h3",
           { className: "listFaction" },
           "Keyword: ",
-          army.listFaction
+          army.listFaction,
+          React.createElement("img", { className: "factionIcon", src: factionIconString })
         ),
         React.createElement(
           "h3",
           { className: "listArmy" },
           "Codex: ",
-          army.listArmy
+          army.listArmy,
+          React.createElement("img", { className: "codexIcon", src: codexIconString })
         ),
         React.createElement(
           "h3",
@@ -372,15 +777,68 @@ var DetachmentList = function DetachmentList(props) {
     var ownerString = window.location.pathname.split('/')[2];
     console.log(ownerString);
 
+    var detachmentIconString = "/assets/img/detachments/";
+
+    /**
+        <option value="patrol" selected>Patrol Detachment</option>
+        <option value="battalion">Battalion Detachment</option>
+        <option value="brigade">Brigade Detachment</option>
+        <option value="vanguard">Vanguard Detachment</option>
+        <option value="spearhead">Spearhead Detachment</option>
+        <option value="outrider">Outrider Detachment</option>
+        <option value="command">Supreme Command Detachment</option>
+        <option value="superheavy">Super-Heavy Detachment</option>
+        <option value="airwing">Air Wing Detachment</option>
+        <option value="fortification">Fortification Network</option>
+        <option value="support">Auxiliary Support Detachments</option>   
+    **/
+
+    switch (detachment.detachmentType) {
+      case "patrol":
+        detachmentIconString += "patrolDetachment.png";
+        break;
+      case "battalion":
+        detachmentIconString += "battalionDetachment.png";
+        break;
+      case "brigade":
+        detachmentIconString += "brigadeDetachment.png";
+        break;
+      case "vanguard":
+        detachmentIconString += "vanguardDetachment.png";
+        break;
+      case "spearhead":
+        detachmentIconString += "spearheadDetachment.png";
+        break;
+      case "outrider":
+        detachmentIconString += "outriderDetachment.png";
+        break;
+      case "command":
+        detachmentIconString += "supremecommandDetachment.png";
+        break;
+      case "superheavy":
+        detachmentIconString += "superheavyDetachment.png";
+        break;
+      case "superheavyauxiliary":
+        detachmentIconString += "superheavyauxiliaryDetachment.png";
+        break;
+      case "airwing":
+        detachmentIconString += "airwingDetachment.png";
+        break;
+      case "fortification":
+        detachmentIconString += "fortificationNetwork.png";
+        break;
+      case "support":
+        detachmentIconString += "auxiliarysupportDetachment.png";
+        break;
+      default:
+        detachmentIconString += "patrolDetachment.png";
+        break;
+    }
+
     return React.createElement(
       "div",
       { key: detachment._id, className: "detachment" },
-      React.createElement(
-        "h3",
-        { className: "detachmentType" },
-        "Type: ",
-        detachment.detachmentType
-      ),
+      React.createElement("img", { id: "detachmentIcon", className: "detachmentIcon", src: detachmentIconString }),
       React.createElement(
         "div",
         { className: "itemPointsPower" },
@@ -441,6 +899,53 @@ var UnitList = function UnitList(props) {
     var ownerString = window.location.pathname.split('/')[2];
     console.log(ownerString);
 
+    var unitTypeIconString = "/assets/img/units/";
+
+    /**
+    <option value="hq">HQ</option>
+    <option value="troop">Troops</option>
+    <option value="elite">Elites</option>
+    <option value="fastattack">Fast Attack</option>
+    <option value="heavysupport">Heavy Support</option>
+    <option value="flyer">Flyers</option>
+    <option value="dedicatedtransport">Dedicated Transport</option>
+    <option value="lordofwar">Lords of War</option>
+    <option value="fortification">Fortifications</option>    
+    **/
+
+    switch (unit.unitType) {
+      case "hq":
+        unitTypeIconString += "hq.png";
+        break;
+      case "troop":
+        unitTypeIconString += "troop.png";
+        break;
+      case "elite":
+        unitTypeIconString += "elite.png";
+        break;
+      case "fastattack":
+        unitTypeIconString += "fastattack.png";
+        break;
+      case "heavysupport":
+        unitTypeIconString += "heavySupport.png";
+        break;
+      case "flyer":
+        unitTypeIconString += "flyer.png";
+        break;
+      case "dedicatedtransport":
+        unitTypeIconString += "dedicatedtransport.png";
+        break;
+      case "lordofwar":
+        unitTypeIconString += "lordofwar.png";
+        break;
+      case "fortification":
+        unitTypeIconString += "fortification.png";
+        break;
+      default:
+        unitTypeIconString += "troop.png";
+        break;
+    }
+
     return React.createElement(
       "div",
       { key: unit._id, className: "unit" },
@@ -455,8 +960,7 @@ var UnitList = function UnitList(props) {
         React.createElement(
           "h3",
           { className: "unitType" },
-          "Type: ",
-          unit.unitType
+          React.createElement("img", { id: "unitTypeIcon", src: unitTypeIconString })
         ),
         React.createElement(
           "h3",

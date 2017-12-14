@@ -391,6 +391,20 @@ h3.modelStats{
   text-align: center;
 }
 
+.factionIcon{
+  height:100px;
+  width:100px;
+}
+.codexIcon{
+  width:100px;
+  height:100px;
+}
+
+.detachmentIcon{
+  width:100%;
+  height:300px;
+}
+
 
 .army:first-child {
   margin-top: 10px;
