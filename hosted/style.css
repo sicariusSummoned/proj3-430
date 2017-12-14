@@ -405,6 +405,19 @@ h3.modelStats{
   height:300px;
 }
 
+.sideAd{
+  position: fixed;
+  right: 30px;
+  top:200px;
+}
+.bottomAd{
+  position:fixed;
+  bottom:0px;
+  left:800px;
+}
+.bottomAd img{
+  height:200px;
+}
 
 .army:first-child {
   margin-top: 10px;
