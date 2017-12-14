@@ -5,7 +5,7 @@ const handleArmy = (e) => {
   
   $("domoMessage").animate({width:'hide'}, 350);
   
-  if($("#listName").val() == '' || $("#listArmy").val() == '' || $("#listPoints").val() == ''){
+  if($("#listName").val() == '' || $("#listPoints").val() == ''){
     handleError("All fields are required!");
     return false;
   }
@@ -27,7 +27,6 @@ const handleDetachment = (e) =>{
   console.dir($("#detachmentForm").attr("action"));
   
   sendAjax('POST', $("#detachmentForm").attr("action"), $("#detachmentForm").serialize(), function(){
-    
     loadDetachmentsFromServer();
   });
 };
@@ -74,12 +73,44 @@ const ArmyForm = (props) => {
       >
       <label htmlFor="listName">List Name: </label>
       <input id="listName" type="text" name="listName" placeholder="My List"/>
-      <label htmlFor="listFaction">Faction: </label>
-      <input id="listFaction" type="text" name="listFaction" placeholder="Imperium"/>
+      <label htmlFor="listFaction">Keyword: </label>
+      <select id="listFaction" name="listFaction">
+        <option value="Imperium" selected>Imperium</option>
+        <option value="Tyranid">Tyranid</option>
+        <option value="Dark Eldar">Dark Eldar</option>
+        <option value="Ork">Ork</option>
+        <option value="Chaos">Chaos</option>
+        <option value="Eldar">Eldar</option>
+        <option value="Tau">Tau</option>
+        <option value="Necron">Necron</option>
+      </select>
       <label htmlFor="listArmy">Army: </label>
-      <input id="listArmy" type="text" name="listArmy" placeholder="Imperial Guard"/>
+      <select id="listArmy" name="listArmy">
+        <option value="Space Marines"selected>Space Marines</option>
+        <option value="Ultramarines">Ultramarines</option>
+        <option value="Space Wolves">Space Wolves</option>
+        <option value="Dark Angels">Dark Angels</option>
+        <option value="Blood Angels">Blood Angels</option>
+        <option value="Chaos Space Marines">Chaos Space Marines</option>
+        <option value="Death Guard">Death Guard</option>
+        <option value="Chaos Demons">Chaos Demons</option>
+        <option value="Dark Eldar">Dark Eldar</option>
+        <option value="Eldar">Eldar</option>
+        <option value="Harlequins">Harlequins</option>
+        <option value="Necrons">Necrons</option>
+        <option value="Orks">Orks</option>
+        <option value="Tau">Tau</option>
+        <option value="Tyranids">Tyranids</option>
+        <option value="Imperial Guard">Imperial Guard</option>
+        <option value="Death Korps">Death Korps</option>
+        <option value="Militarum Tempestus">Militarum Tempestus</option>
+        <option value="Genestealer Cults">Genestealer Cults</option>
+        <option value="Sisters of Battle">Sisters of Battle</option>
+        <option value="Skitarii">Skitarii</option>
+        <option value="Cult Mechanicus">Cult Mechanicus</option>
+      </select>
       <label htmlFor="listSubFaction">SubFaction: </label>
-      <input id="listSubFaction" type="text" name="listSubFaction" placeholder="Cadian"/>
+      <input id="listSubFaction" type="text" name="listSubFaction"/>
       <label htmlFor="listPoints">Points: </label>
       <input id="listPoints" type="text" name="listPoints" placeholder="1000"/>
       <label htmlFor="listPower">Power: </label>
@@ -101,8 +132,22 @@ const DetachmentForm = (props) =>{
       method="POST"
       className="detachmentForm"
       >
+      
       <label htmlFor="detachmentType">Detachment Type: </label>
-      <input id="detachmentType" type="text" name="detachmentType" placeholder="Patrol"/>
+      <select id="detachmentType" name="detachmentType">
+        <option value="patrol" selected>Patrol Detachment</option>
+        <option value="battalion">Battalion Detachment</option>
+        <option value="brigade">Brigade Detachment</option>
+        <option value="vanguard">Vanguard Detachment</option>
+        <option value="spearhead">Spearhead Detachment</option>
+        <option value="outrider">Outrider Detachment</option>
+        <option value="command">Supreme Command Detachment</option>
+        <option value="superheavy">Super-Heavy Detachment</option>
+        <option value="superheavyauxiliary">Super-Heavy Auxiliary Detachment</option>
+        <option value="airwing">Air Wing Detachment</option>
+        <option value="fortification">Fortification Network</option>
+        <option value="support">Auxiliary Support Detachments</option>
+      </select>
       <label htmlFor="detachmentPoints">Detachment Points: </label>
       <input id="detachmentPoints" type="text" name="detachmentPoints" placeholder="100"/>
       <label htmlFor="detachmentPower">Detachment Power: </label>
@@ -127,7 +172,17 @@ const UnitForm = (props) =>{
       <label htmlFor="unitName">Unit Name: </label>
       <input id="unitName" type="text" name="unitName" placeholder="Infantry Squad"/>
       <label htmlFor="unitType">Unit Type: </label>
-      <input id="unitType" type="text" name="unitType" placeholder="Infantry"/>
+      <select id="unitType" name="unitType">
+        <option value="hq">HQ</option>
+        <option value="troop">Troops</option>
+        <option value="elite">Elites</option>
+        <option value="fastattack">Fast Attack</option>
+        <option value="heavysupport">Heavy Support</option>
+        <option value="flyer">Flyers</option>
+        <option value="dedicatedtransport">Dedicated Transport</option>
+        <option value="lordofwar">Lords of War</option>
+        <option value="fortification">Fortifications</option>
+      </select>
       <label htmlFor="unitPoints">Unit Points: </label>
       <input id="unitPoints" type="text" name="unitPoints" placeholder="100"/>
       <label htmlFor="unitPower">Unit Power: </label>
@@ -183,15 +238,155 @@ const ArmyList = function(props) {
   }
   
   const armyNodes = props.armies.map(function(army){
-    console.dir(army);
-    console.log(army.listArmy);
-
+    
+    let factionIconString = "/assets/img/armies/";
+    let codexIconString = "/assets/img/armies/";
+    
+    /**
+    <option value="Imperium" selected>Imperium</option>
+    <option value="Tyranid">Tyranid</option>
+    <option value="Dark Eldar">Dark Eldar</option>
+    <option value="Ork">Ork</option>
+    <option value="Chaos">Chaos</option>
+    <option value="Eldar">Eldar</option>
+    <option value="Tau">Tau</option>
+    <option value="Necron">Necron</option>
+    **/
+    
+    
+    switch(army.listFaction){
+      case 'Imperium':
+        factionIconString+='imperium.png';
+        break;
+      case 'Tyranid':
+        factionIconString+='tyranid.png';
+        break;
+      case 'Dark Eldar':
+        factionIconString+='darkeldar.png';
+        break;
+      case 'Ork':
+        factionIconString+='ork.png';
+        break;
+      case 'Chaos':
+        factionIconString+='chaosdemons.png';
+        break;
+      case 'Eldar':
+        factionIconString+='eldar.png';
+        break;
+      case 'Tau':
+        factionIconString+='tau.png';
+        break;
+      case 'Necron':
+        factionIconString+='necron.png';
+        break;
+      default:
+        factionIconString+='imperium.png';
+        break;
+    }
+    /**
+        <option value="Space Marines"selected>Space Marines</option>
+        <option value="Ultramarines">Ultramarines</option>
+        <option value="Space Wolves">Space Wolves</option>
+        <option value="Dark Angels">Dark Angels</option>
+        <option value="Blood Angels">Blood Angels</option>
+        <option value="Chaos Space Marines">Chaos Space Marines</option>
+        <option value="Death Guard">Death Guard</option>
+        <option value="Chaos Demons">Chaos Demons</option>
+        <option value="Dark Eldar">Dark Eldar</option>
+        <option value="Eldar">Eldar</option>
+        <option value="Harlequins">Harlequins</option>
+        <option value="Necrons">Necrons</option>
+        <option value="Orks">Orks</option>
+        <option value="Tau">Tau</option>
+        <option value="Tyranids">Tyranids</option>
+        <option value="Imperial Guard">Imperial Guard</option>
+        <option value="Death Korps">Death Korps</option>
+        <option value="Militarum Tempestus">Militarum Tempestus</option>
+        <option value="Genestealer Cults">Genestealer Cults</option>
+        <option value="Sisters of Battle">Sisters of Battle</option>
+        <option value="Skitarii">Skitarii</option>
+        <option value="Cult Mechanicus">Cult Mechanicus</option>    
+    **/
+    
+    
+    switch(army.listArmy){
+      case "Space Marines":
+        codexIconString+="spacemarines.png";
+        break;
+      case "Ultramarines":
+        codexIconString+="ultramarines.png";
+        break;
+      case "Space Wolves":
+        codexIconString+="spacewolves.png";
+        break;
+      case "Dark Angels":
+        codexIconString+="darkangels.png";
+        break;
+      case "Blood Angels":
+        codexIconString+="bloodangels.png";
+        break;
+      case "Chaos Space Marines":
+        codexIconString+="chaosspacemarines.png";
+        break;
+      case "Death Guard":
+        codexIconString+="deathguard.png";
+        break;
+      case "Chaos Demons":
+        codexIconString+="chaosdemons.png";
+        break;
+      case "Dark Eldar":
+        codexIconString+="darkeldar.png";
+        break;
+      case "Eldar":
+        codexIconString+="eldar.png";
+        break;
+      case "Harlequins":
+        codexIconString+="harlequin.png";
+        break;
+      case "Necrons":
+        codexIconString+="necron.png";
+        break;
+      case "Orks":
+        codexIconString+="ork.png";
+        break;
+      case "Tau":
+        codexIconString+="tau.png";
+        break;
+      case "Tyranids":
+        codexIconString+="tyranid.png";
+        break;
+      case "Imperial Guard":
+        codexIconString+="imperialguard.png";
+        break;
+      case "Death Korps":
+        codexIconString+="deathkorps.jpeg";
+        break;
+      case "Militarum Tempestus":
+        codexIconString+="militarumtempestus.png";
+        break;
+      case "Genestealer Cults":
+        codexIconString+="tyranid.png";
+        break;
+      case "Sisters of Battle":
+        codexIconString+="sistersofbattle.jpeg";
+        break;
+      case "Skitarii":
+        codexIconString+="skitarii.png";
+        break;
+      case "Cult Mechanicus":
+        codexIconString+="cultmechanicus.png";
+        break;
+      default:
+        codexIconString+='spacemarines.png';
+        break;
+    }
+    
     return(
       <div key={army._id} className="army">
         <h3 className="listName">{army.listName}</h3>
         <div className="itemContent">
-          <h3 className="listFaction">Keyword: {army.listFaction}</h3>
-          <h3 className="listArmy">Codex: {army.listArmy}</h3>
+          <h3 className="listFaction">Keyword: {army.listFaction}<img className="factionIcon" src={factionIconString}/></h3>
+          <h3 className="listArmy">Codex: {army.listArmy}<img className="codexIcon" src={codexIconString}/></h3>
           <h3 className="listSubFaction">Doctrines: {army.listSubFaction}</h3>
         </div>
         <div className="itemPointsPower">
@@ -223,15 +418,74 @@ const DetachmentList = function(props) {
     );
   }
   
+  
   const detachmentNodes = props.detachments.map(function(detachment){
     console.dir(detachment);
     
     const ownerString = window.location.pathname.split('/')[2];
     console.log(ownerString);
     
+    let detachmentIconString = "/assets/img/detachments/";
+    
+    /**
+        <option value="patrol" selected>Patrol Detachment</option>
+        <option value="battalion">Battalion Detachment</option>
+        <option value="brigade">Brigade Detachment</option>
+        <option value="vanguard">Vanguard Detachment</option>
+        <option value="spearhead">Spearhead Detachment</option>
+        <option value="outrider">Outrider Detachment</option>
+        <option value="command">Supreme Command Detachment</option>
+        <option value="superheavy">Super-Heavy Detachment</option>
+        <option value="airwing">Air Wing Detachment</option>
+        <option value="fortification">Fortification Network</option>
+        <option value="support">Auxiliary Support Detachments</option>   
+    **/
+    
+    switch(detachment.detachmentType){
+      case "patrol":
+        detachmentIconString+="patrolDetachment.png";
+        break;
+      case "battalion":
+        detachmentIconString+="battalionDetachment.png";
+        break;
+      case "brigade":
+        detachmentIconString+="brigadeDetachment.png";
+        break;
+      case "vanguard":
+        detachmentIconString+="vanguardDetachment.png";
+        break;
+      case "spearhead":
+        detachmentIconString+="spearheadDetachment.png";
+        break;
+      case "outrider":
+        detachmentIconString+="outriderDetachment.png";
+        break;
+      case "command":
+        detachmentIconString+="supremecommandDetachment.png";
+        break;
+      case "superheavy":
+        detachmentIconString+="superheavyDetachment.png";
+        break;
+      case "superheavyauxiliary":
+        detachmentIconString+="superheavyauxiliaryDetachment.png";
+        break;
+      case "airwing":
+        detachmentIconString+="airwingDetachment.png";
+        break;
+      case "fortification":
+        detachmentIconString+="fortificationNetwork.png";
+        break;
+      case "support":
+        detachmentIconString+="auxiliarysupportDetachment.png";
+        break;
+      default:
+        detachmentIconString+="patrolDetachment.png";
+        break;
+    }
+    
     return(
       <div key={detachment._id} className="detachment">
-        <h3 className="detachmentType">Type: {detachment.detachmentType}</h3>
+        <img id="detachmentIcon" className="detachmentIcon" src={detachmentIconString}/>
         <div className="itemPointsPower">
           <h3 className="detachmentPoints">Points: {detachment.detachmentPoints}</h3>
           <h3 className="detachmentPower">Power: {detachment.detachmentPower}</h3>
@@ -266,12 +520,58 @@ const UnitList = function(props) {
     const ownerString = window.location.pathname.split('/')[2];
     console.log(ownerString);
     
+    let unitTypeIconString = "/assets/img/units/";
+    
+    /**
+    <option value="hq">HQ</option>
+    <option value="troop">Troops</option>
+    <option value="elite">Elites</option>
+    <option value="fastattack">Fast Attack</option>
+    <option value="heavysupport">Heavy Support</option>
+    <option value="flyer">Flyers</option>
+    <option value="dedicatedtransport">Dedicated Transport</option>
+    <option value="lordofwar">Lords of War</option>
+    <option value="fortification">Fortifications</option>    
+    **/
+    
+    switch(unit.unitType){
+      case "hq":
+        unitTypeIconString+="hq.png";
+        break;
+      case "troop":
+        unitTypeIconString+="troop.png";
+        break;
+      case "elite":
+        unitTypeIconString+="elite.png";
+        break;
+      case "fastattack":
+        unitTypeIconString+="fastattack.png";
+        break;
+      case "heavysupport":
+        unitTypeIconString+="heavySupport.png";
+        break;
+      case "flyer":
+        unitTypeIconString+="flyer.png";
+        break;
+      case "dedicatedtransport":
+        unitTypeIconString+="dedicatedtransport.png";
+        break;
+      case "lordofwar":
+        unitTypeIconString+="lordofwar.png";
+        break;
+      case "fortification":
+        unitTypeIconString+="fortification.png";
+        break;
+      default:
+        unitTypeIconString+="troop.png";
+        break;
+    }
+    
     return(
       <div key={unit._id} className="unit">
         <h3 className="unitName">{unit.unitName}</h3>
         <div className="itemContent">
-          <h3 className="unitType">Type: {unit.unitType}</h3>
-          
+          <h3 className="unitType"><img id="unitTypeIcon" src={unitTypeIconString}/></h3>          
           <h3 className="unitUpgrades">Upgrades: {unit.unitUpgrades}</h3>
           <h3 className="unitUpgradesCost">Upgrades Cost: {unit.unitUpgradesCost}</h3>
           <h3 className="unitSpecialRules">Special Rules: {unit.unitSpecialRules}</h3>
